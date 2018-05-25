@@ -1,0 +1,68 @@
+
+var cards=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+var colors =['heart','spade','diamond','club'];
+
+
+function findCard(number){
+  var cardIndex = number % 13;
+  var colorsIndex = (number - cardIndex)/ 13 ;
+  return {
+  'color':colors[colorsIndex],
+  'card':cards[cardIndex],
+  };
+}
+
+
+function compareUserCards(userCards){
+  var hasSameRankCards = userCards.map(cardsComparision);
+  console.log(hasSameRankCards);
+  hasSameRankCards.sort();
+  return hasSameRankCards[hasSameRankCards.length -1];
+}
+
+
+/* Giving a rank for each user
+    who ever has a highest ran they are the winner.  
+ */
+
+function cardsComparision(cards){
+  var sameSequence = checkSameRankCards(cards);
+      if(sameSequence)
+        return 6;
+
+  sameSequence = checkSameColor(cards);
+       if(sameSequence)
+         return 4;
+  return 1;
+}
+
+
+function checkSameColor(cards){
+  for(var i = 0; i < cards.length - 1; i++) {
+      if(cards[i+1].color !== cards[0].color) {
+          return false;
+      }
+  }
+  return true;
+}
+
+function checkSameRankCards(cards){
+  for(var i = 0; i < cards.length - 1; i++) {
+      if(cards[i+1].card !== cards[0].card) {
+          return false;
+      }
+  }
+  return true;
+};
+
+
+
+var sampleinput = [[1,12,27],[13,14,15]];
+
+var userCards = sampleinput.map((cards)=>{
+  var x = cards.map(findCard);
+  // console.log(x);
+  return x;
+});
+
+console.log(" Player",compareUserCards(userCards));
